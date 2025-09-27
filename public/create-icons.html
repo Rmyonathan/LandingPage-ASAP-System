@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Icon Generator</title>
+</head>
+<body>
+    <h1>ASAP Management System - Icon Generator</h1>
+    <p>Klik tombol di bawah untuk generate dan download icon files:</p>
+    
+    <div style="margin: 20px 0;">
+        <button onclick="generateIcon(192, 'icon-192x192.png')">Generate 192x192 PNG</button>
+        <button onclick="generateIcon(512, 'icon-512x512.png')">Generate 512x512 PNG</button>
+        <button onclick="generateIcon(32, 'favicon.ico')">Generate Favicon (32x32)</button>
+        <button onclick="generateIcon(180, 'apple-touch-icon.png')">Generate Apple Touch Icon (180x180)</button>
+    </div>
+    
+    <div id="canvas-container"></div>
+
+    <script>
+        function generateIcon(size, filename) {
+            const canvas = document.createElement('canvas');
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+            
+            // Background
+            ctx.fillStyle = '#667eea';
+            ctx.fillRect(0, 0, size, size);
+            
+            // White rounded rectangle
+            ctx.fillStyle = 'white';
+            const margin = size * 0.125;
+            const innerSize = size - (margin * 2);
+            ctx.beginPath();
+            ctx.roundRect(margin, margin, innerSize, innerSize, size * 0.125);
+            ctx.fill();
+            
+            // Blue inner rectangle
+            ctx.fillStyle = '#667eea';
+            const innerMargin = size * 0.1875;
+            const innerInnerSize = size - (innerMargin * 2);
+            ctx.beginPath();
+            ctx.roundRect(innerMargin, innerMargin, innerInnerSize, innerInnerSize, size * 0.0625);
+            ctx.fill();
+            
+            // Text
+            ctx.fillStyle = 'white';
+            ctx.font = `bold ${size * 0.25}px Arial`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('ASAP', size / 2, size * 0.5);
+            
+            if (size >= 180) {
+                ctx.font = `${size * 0.08}px Arial`;
+                ctx.fillText('Management', size / 2, size * 0.7);
+            }
+            
+            // Convert to blob and download
+            canvas.toBlob(function(blob) {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }, 'image/png');
+        }
+        
+        // Polyfill for roundRect if not supported
+        if (!CanvasRenderingContext2D.prototype.roundRect) {
+            CanvasRenderingContext2D.prototype.roundRect = function(x, y, width, height, radius) {
+                this.beginPath();
+                this.moveTo(x + radius, y);
+                this.lineTo(x + width - radius, y);
+                this.quadraticCurveTo(x + width, y, x + width, y + radius);
+                this.lineTo(x + width, y + height - radius);
+                this.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+                this.lineTo(x + radius, y + height);
+                this.quadraticCurveTo(x, y + height, x, y + height - radius);
+                this.lineTo(x, y + radius);
+                this.quadraticCurveTo(x, y, x + radius, y);
+                this.closePath();
+            };
+        }
+    </script>
+</body>
+</html>

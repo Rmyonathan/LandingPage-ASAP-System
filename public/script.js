@@ -325,8 +325,8 @@ function initImageZoom() {
         if (modalImg) modalImg.alt = title;
         if (modalTitle) modalTitle.textContent = title;
         if (modalDescription) modalDescription.textContent = description;
-        if (currentIndexSpan) {
-            currentIndexSpan.textContent = index + 1;
+        if (currentImageIndexSpan) {
+            currentImageIndexSpan.textContent = index + 1;
         }
         
         // Update button states
