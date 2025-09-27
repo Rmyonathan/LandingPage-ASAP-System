@@ -283,121 +283,194 @@ function initParallax() {
     }
 }
 
-// Image zoom functionality
+// Image zoom functionality - Open in new tab
 function initImageZoom() {
-    const modal = document.getElementById('imageZoomModal');
-    const modalImg = document.getElementById('zoomImage');
-    const modalTitle = document.getElementById('zoomTitle');
-    const modalDescription = document.getElementById('zoomDescription');
-    const closeBtn = document.querySelector('.image-zoom-close');
-    const prevBtn = document.getElementById('zoomPrev');
-    const nextBtn = document.getElementById('zoomNext');
-    const currentIndexSpan = document.getElementById('currentImageIndex');
-    const totalImagesSpan = document.getElementById('totalImages');
-    
-    // Check if modal exists
-    if (!modal) {
-        console.log('Modal not found');
-        return;
-    }
-    
     // Get all images with zoom trigger
     const allImages = Array.from(document.querySelectorAll('.image-zoom-trigger'));
-    let currentImageIndex = 0;
     
     console.log('Found images:', allImages.length);
-    
-    // Update total images count
-    if (totalImagesSpan) {
-        totalImagesSpan.textContent = allImages.length;
-    }
-    
-    // Function to update modal content
-    function updateModalContent(index) {
-        if (!allImages[index]) return;
-        
-        const img = allImages[index];
-        const src = img.src;
-        const title = img.getAttribute('data-title') || img.alt;
-        const description = img.getAttribute('data-description') || '';
-        
-        if (modalImg) modalImg.src = src;
-        if (modalImg) modalImg.alt = title;
-        if (modalTitle) modalTitle.textContent = title;
-        if (modalDescription) modalDescription.textContent = description;
-        if (currentImageIndexSpan) {
-            currentImageIndexSpan.textContent = index + 1;
-        }
-        
-        // Update button states
-        if (prevBtn) prevBtn.disabled = index === 0;
-        if (nextBtn) nextBtn.disabled = index === allImages.length - 1;
-    }
-    
-    // Function to show previous image
-    function showPreviousImage() {
-        if (currentImageIndex > 0) {
-            currentImageIndex--;
-            updateModalContent(currentImageIndex);
-        }
-    }
-    
-    // Function to show next image
-    function showNextImage() {
-        if (currentImageIndex < allImages.length - 1) {
-            currentImageIndex++;
-            updateModalContent(currentImageIndex);
-        }
-    }
     
     // Add click event to all image zoom triggers
     allImages.forEach((img, index) => {
         img.addEventListener('click', function() {
-            currentImageIndex = index;
-            updateModalContent(currentImageIndex);
-            modal.classList.add('show');
-            document.body.style.overflow = 'hidden';
+            const src = this.src;
+            const title = this.getAttribute('data-title') || this.alt;
+            const description = this.getAttribute('data-description') || '';
+            
+            // Create a new window with the image
+            const newWindow = window.open('', '_blank', 'width=1200,height=800,scrollbars=yes,resizable=yes');
+            
+            newWindow.document.write(`
+                <!DOCTYPE html>
+                <html lang="id">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>${title}</title>
+                    <style>
+                        * {
+                            margin: 0;
+                            padding: 0;
+                            box-sizing: border-box;
+                        }
+                        body {
+                            background: #000;
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                            justify-content: center;
+                            min-height: 100vh;
+                            font-family: Arial, sans-serif;
+                            color: white;
+                        }
+                        .image-container {
+                            max-width: 90vw;
+                            max-height: 80vh;
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                        }
+                        .image-container img {
+                            max-width: 100%;
+                            max-height: 100%;
+                            object-fit: contain;
+                            border-radius: 8px;
+                            box-shadow: 0 4px 20px rgba(255,255,255,0.1);
+                        }
+                        .image-info {
+                            margin-top: 20px;
+                            text-align: center;
+                            max-width: 600px;
+                        }
+                        .image-info h1 {
+                            font-size: 24px;
+                            margin-bottom: 10px;
+                            color: #fff;
+                        }
+                        .image-info p {
+                            font-size: 16px;
+                            line-height: 1.6;
+                            color: #ccc;
+                        }
+                        .close-btn {
+                            position: fixed;
+                            top: 20px;
+                            right: 20px;
+                            background: rgba(255,255,255,0.2);
+                            border: none;
+                            color: white;
+                            font-size: 24px;
+                            width: 50px;
+                            height: 50px;
+                            border-radius: 50%;
+                            cursor: pointer;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            transition: background 0.3s;
+                        }
+                        .close-btn:hover {
+                            background: rgba(255,255,255,0.3);
+                        }
+                        .nav-buttons {
+                            position: fixed;
+                            top: 50%;
+                            transform: translateY(-50%);
+                            display: flex;
+                            justify-content: space-between;
+                            width: 100%;
+                            padding: 0 20px;
+                            pointer-events: none;
+                        }
+                        .nav-btn {
+                            background: rgba(255,255,255,0.2);
+                            border: none;
+                            color: white;
+                            font-size: 20px;
+                            width: 50px;
+                            height: 50px;
+                            border-radius: 50%;
+                            cursor: pointer;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            transition: background 0.3s;
+                            pointer-events: all;
+                        }
+                        .nav-btn:hover {
+                            background: rgba(255,255,255,0.3);
+                        }
+                        .nav-btn:disabled {
+                            opacity: 0.3;
+                            cursor: not-allowed;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <button class="close-btn" onclick="window.close()">&times;</button>
+                    
+                    <div class="nav-buttons">
+                        <button class="nav-btn" id="prevBtn" onclick="previousImage()">‹</button>
+                        <button class="nav-btn" id="nextBtn" onclick="nextImage()">›</button>
+                    </div>
+                    
+                    <div class="image-container">
+                        <img src="${src}" alt="${title}">
+                        <div class="image-info">
+                            <h1>${title}</h1>
+                            <p>${description}</p>
+                        </div>
+                    </div>
+                    
+                    <script>
+                        let currentIndex = ${index};
+                        const allImages = ${JSON.stringify(allImages.map(img => ({
+                            src: img.src,
+                            title: img.getAttribute('data-title') || img.alt,
+                            description: img.getAttribute('data-description') || ''
+                        })))};
+                        
+                        function updateImage() {
+                            const img = allImages[currentIndex];
+                            document.querySelector('img').src = img.src;
+                            document.querySelector('img').alt = img.title;
+                            document.querySelector('h1').textContent = img.title;
+                            document.querySelector('p').textContent = img.description;
+                            
+                            document.getElementById('prevBtn').disabled = currentIndex === 0;
+                            document.getElementById('nextBtn').disabled = currentIndex === allImages.length - 1;
+                        }
+                        
+                        function previousImage() {
+                            if (currentIndex > 0) {
+                                currentIndex--;
+                                updateImage();
+                            }
+                        }
+                        
+                        function nextImage() {
+                            if (currentIndex < allImages.length - 1) {
+                                currentIndex++;
+                                updateImage();
+                            }
+                        }
+                        
+                        // Keyboard navigation
+                        document.addEventListener('keydown', function(e) {
+                            if (e.key === 'Escape') window.close();
+                            if (e.key === 'ArrowLeft') previousImage();
+                            if (e.key === 'ArrowRight') nextImage();
+                        });
+                        
+                        // Initialize
+                        updateImage();
+                    </script>
+                </body>
+                </html>
+            `);
+            
+            newWindow.document.close();
         });
-    });
-    
-    // Close modal functionality
-    function closeModal() {
-        modal.classList.remove('show');
-        document.body.style.overflow = 'auto';
-    }
-    
-    // Close button
-    if (closeBtn) {
-        closeBtn.addEventListener('click', closeModal);
-    }
-    
-    // Navigation buttons
-    if (prevBtn) {
-        prevBtn.addEventListener('click', showPreviousImage);
-    }
-    
-    if (nextBtn) {
-        nextBtn.addEventListener('click', showNextImage);
-    }
-    
-    // Close on background click
-    modal.addEventListener('click', function(e) {
-        if (e.target === modal) {
-            closeModal();
-        }
-    });
-    
-    // Keyboard navigation
-    document.addEventListener('keydown', function(e) {
-        if (modal.classList.contains('show')) {
-            if (e.key === 'Escape') {
-                closeModal();
-            } else if (e.key === 'ArrowLeft') {
-                showPreviousImage();
-            } else if (e.key === 'ArrowRight') {
-                showNextImage();
-            }
-        }
     });
 }
 
