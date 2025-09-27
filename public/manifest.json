@@ -1,26 +1,13 @@
 {
-  "name": "Toko GlobalTeknik - Sistem Akuntansi Terintegrasi",
-  "short_name": "Toko GlobalTeknik",
-  "description": "Sistem akuntansi terintegrasi untuk manajemen toko dengan multi-database support",
+  "name": "ASAP Management System - Swakarsa Digital Indonesia",
+  "short_name": "ASAP Management",
+  "description": "ASAP Management System - Solusi lengkap untuk Accounting, Stock, Administrasi dan Penjualan",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#667eea",
   "orientation": "portrait-primary",
-  "icons": [
-    {
-      "src": "icon-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "icon-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    }
-  ],
+  "icons": [],
   "categories": ["business", "productivity", "finance"],
   "lang": "id",
   "dir": "ltr"
