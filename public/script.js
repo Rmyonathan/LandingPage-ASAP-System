@@ -1,7 +1,6 @@
 // Toko GlobalTeknik Landing Page JavaScript
 
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM Content Loaded - Initializing functions');
     // Initialize all functionality
     initScrollIndicator();
     initSmoothScrolling();
@@ -9,7 +8,6 @@ document.addEventListener('DOMContentLoaded', function() {
     initAnimations();
     initFormHandling();
     initScrollToTop();
-    console.log('About to initialize image zoom');
     initImageZoom();
     initServiceWorker();
 });
@@ -297,14 +295,9 @@ function initImageZoom() {
     const currentIndexSpan = document.getElementById('currentImageIndex');
     const totalImagesSpan = document.getElementById('totalImages');
     
-    // Debug log
-    console.log('Modal elements:', { modal, modalImg, modalTitle, modalDescription });
-    
     // Get all images with zoom trigger
     const allImages = Array.from(document.querySelectorAll('.image-zoom-trigger'));
     let currentImageIndex = 0;
-    
-    console.log('Found images with zoom trigger:', allImages.length);
     
     // Update total images count
     if (totalImagesSpan) {
@@ -322,7 +315,9 @@ function initImageZoom() {
         modalImg.alt = title;
         modalTitle.textContent = title;
         modalDescription.textContent = description;
-        currentImageIndexSpan.textContent = index + 1;
+        if (currentIndexSpan) {
+            currentIndexSpan.textContent = index + 1;
+        }
         
         // Update button states
         prevBtn.disabled = index === 0;
@@ -348,8 +343,6 @@ function initImageZoom() {
     // Add click event to all image zoom triggers
     allImages.forEach((img, index) => {
         img.addEventListener('click', function() {
-            console.log('Image clicked:', index, this.src);
-            alert('Image clicked! Modal should appear.');
             currentImageIndex = index;
             updateModalContent(currentImageIndex);
             modal.classList.add('show');
