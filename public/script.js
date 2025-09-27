@@ -295,9 +295,17 @@ function initImageZoom() {
     const currentIndexSpan = document.getElementById('currentImageIndex');
     const totalImagesSpan = document.getElementById('totalImages');
     
+    // Check if modal exists
+    if (!modal) {
+        console.log('Modal not found');
+        return;
+    }
+    
     // Get all images with zoom trigger
     const allImages = Array.from(document.querySelectorAll('.image-zoom-trigger'));
     let currentImageIndex = 0;
+    
+    console.log('Found images:', allImages.length);
     
     // Update total images count
     if (totalImagesSpan) {
@@ -306,22 +314,24 @@ function initImageZoom() {
     
     // Function to update modal content
     function updateModalContent(index) {
+        if (!allImages[index]) return;
+        
         const img = allImages[index];
         const src = img.src;
         const title = img.getAttribute('data-title') || img.alt;
         const description = img.getAttribute('data-description') || '';
         
-        modalImg.src = src;
-        modalImg.alt = title;
-        modalTitle.textContent = title;
-        modalDescription.textContent = description;
+        if (modalImg) modalImg.src = src;
+        if (modalImg) modalImg.alt = title;
+        if (modalTitle) modalTitle.textContent = title;
+        if (modalDescription) modalDescription.textContent = description;
         if (currentIndexSpan) {
             currentIndexSpan.textContent = index + 1;
         }
         
         // Update button states
-        prevBtn.disabled = index === 0;
-        nextBtn.disabled = index === allImages.length - 1;
+        if (prevBtn) prevBtn.disabled = index === 0;
+        if (nextBtn) nextBtn.disabled = index === allImages.length - 1;
     }
     
     // Function to show previous image
