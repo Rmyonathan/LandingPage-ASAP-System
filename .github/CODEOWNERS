@@ -1,0 +1,46 @@
+# Global owners
+* @tokoglobalteknik
+
+# Core files
+/index.html @tokoglobalteknik
+/styles.css @tokoglobalteknik
+/script.js @tokoglobalteknik
+/sw.js @tokoglobalteknik
+/manifest.json @tokoglobalteknik
+
+# Configuration files
+/package.json @tokoglobalteknik
+/vercel.json @tokoglobalteknik
+/netlify.toml @tokoglobalteknik
+/_redirects @tokoglobalteknik
+
+# Documentation
+/README.md @tokoglobalteknik
+/deploy.md @tokoglobalteknik
+/CONTRIBUTING.md @tokoglobalteknik
+/CHANGELOG.md @tokoglobalteknik
+/LICENSE @tokoglobalteknik
+
+# GitHub specific files
+/.github/ @tokoglobalteknik
+/.github/workflows/ @tokoglobalteknik
+/.github/dependabot.yml @tokoglobalteknik
+/.github/CODEOWNERS @tokoglobalteknik
+
+# Security and legal
+/SECURITY.md @tokoglobalteknik
+/PRIVACY.md @tokoglobalteknik
+/TERMS.md @tokoglobalteknik
+/CODE_OF_CONDUCT.md @tokoglobalteknik
+
+# SEO and metadata
+/robots.txt @tokoglobalteknik
+/sitemap.xml @tokoglobalteknik
+/404.html @tokoglobalteknik
+
+# Assets and media
+*.jpg @tokoglobalteknik
+*.png @tokoglobalteknik
+*.svg @tokoglobalteknik
+*.ico @tokoglobalteknik
+*.webp @tokoglobalteknik

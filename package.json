@@ -1,0 +1,24 @@
+{
+  "name": "toko-globalteknik-landing",
+  "version": "1.0.0",
+  "description": "Landing page for Toko GlobalTeknik - Integrated Accounting System",
+  "main": "index.html",
+  "scripts": {
+    "build": "echo 'Static site - no build needed'",
+    "dev": "npx serve .",
+    "start": "npx serve ."
+  },
+  "keywords": [
+    "accounting",
+    "inventory",
+    "sales",
+    "management",
+    "system",
+    "indonesia"
+  ],
+  "author": "Toko GlobalTeknik",
+  "license": "MIT",
+  "devDependencies": {
+    "serve": "^14.2.0"
+  }
+}
